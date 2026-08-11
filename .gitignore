@@ -1,0 +1,35 @@
+# Build / target folders
+target/
+backend/target/
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Duplicate folder
+TV/
+
+# IDE / Editor folders
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# OS/System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs & temp
+*.log
+brain/
+**/brain/
+.system_generated/
+**/.system_generated/
+
+# Environments / Credentials
+.env
+.env.local
