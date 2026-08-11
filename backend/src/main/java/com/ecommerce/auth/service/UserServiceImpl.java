@@ -62,9 +62,12 @@ public class UserServiceImpl implements UserService {
             throw new PasswordMismatchException("Password and confirm password do not match");
         }
 
-        // 2. Validate email uniqueness
+        // 2. Validate email and username uniqueness
         if (userRepository.existsByEmail(request.email())) {
-            throw new EmailAlreadyExistsException("Email address is already registered");
+            throw new EmailAlreadyExistsException("Email address is already registered. Please login or use forgot password.");
+        }
+        if (userRepository.existsByUsername(request.username())) {
+            throw new UsernameAlreadyExistsException("Username '" + request.username() + "' is already taken. Please choose a different username.");
         }
 
         // 3. Create new user entity (default role is CUSTOMER)

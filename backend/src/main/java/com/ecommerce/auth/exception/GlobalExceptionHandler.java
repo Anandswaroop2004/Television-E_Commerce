@@ -32,16 +32,17 @@ public class GlobalExceptionHandler {
         });
 
         ErrorResponse response = new ErrorResponse(
-                false,
-                "Validation failed",
-                errors,
-                LocalDateTime.now()
+            false,
+            "Validation failed",
+            errors,
+            LocalDateTime.now()
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({
             CustomExceptions.EmailAlreadyExistsException.class,
+            CustomExceptions.UsernameAlreadyExistsException.class,
             CustomExceptions.InvalidOtpException.class,
             CustomExceptions.OtpExpiredException.class,
             CustomExceptions.PasswordMismatchException.class,
@@ -50,10 +51,10 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(RuntimeException ex) {
         ErrorResponse response = new ErrorResponse(
-                false,
-                ex.getMessage(),
-                null,
-                LocalDateTime.now()
+            false,
+            ex.getMessage(),
+            null,
+            LocalDateTime.now()
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -64,10 +65,10 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponse> handleUnauthorizedExceptions(RuntimeException ex) {
         ErrorResponse response = new ErrorResponse(
-                false,
-                ex.getMessage(),
-                null,
-                LocalDateTime.now()
+            false,
+            ex.getMessage(),
+            null,
+            LocalDateTime.now()
         );
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
@@ -75,10 +76,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomExceptions.UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(RuntimeException ex) {
         ErrorResponse response = new ErrorResponse(
-                false,
-                ex.getMessage(),
-                null,
-                LocalDateTime.now()
+            false,
+            ex.getMessage(),
+            null,
+            LocalDateTime.now()
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -86,10 +87,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllOtherExceptions(Exception ex) {
         ErrorResponse response = new ErrorResponse(
-                false,
-                "An unexpected error occurred: " + ex.getMessage(),
-                null,
-                LocalDateTime.now()
+            false,
+            ex.getMessage() != null && ex.getMessage().contains("Duplicate entry") 
+                ? "This username or email is already registered. Please try logging in or use another username."
+                : "An unexpected error occurred: " + ex.getMessage(),
+            null,
+            LocalDateTime.now()
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

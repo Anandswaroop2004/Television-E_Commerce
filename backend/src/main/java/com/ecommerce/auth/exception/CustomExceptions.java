@@ -8,6 +8,12 @@ public class CustomExceptions {
         }
     }
 
+    public static class UsernameAlreadyExistsException extends RuntimeException {
+        public UsernameAlreadyExistsException(String message) {
+            super(message);
+        }
+    }
+
     public static class InvalidCredentialsException extends RuntimeException {
         public InvalidCredentialsException(String message) {
             super(message);
